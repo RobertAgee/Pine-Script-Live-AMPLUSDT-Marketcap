@@ -1,0 +1,41 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © CubanEmissary
+
+// About:
+//
+// AMPL is a token with unique tokenomics.  AMPL "rebases" (inflates or deflates supply) nightly in order to bring 1 AMPL closer to $1, ie prices above $1 inflate the supply to bring
+// prices down, and prices below $1 deflate the supply to bring prices up.  However, what does remain the same is the % of the total marketcap you own.  That means that
+// your % of the marketcap remains the same throughout each rebase and ultimately the value being speculated on is the value of AMPL's underlying marketcap.  Because of 
+// the rebasing mechanics, AMPL remains a highly volatile asset for short periods of time, and thus can be very profitable on speculation.
+//
+// Because the price is not necessarily reflective of the actual marketcap value, using purely the price data is useless for technical analysis.  And, while Tradingview does
+// offer daily timeframe data for the AMPL marketcap, the action we might be interested in takes place on hourly timeframes.  Thus, we must somehow calculate the marketcap value
+// at lower timeframes. 
+//
+// Simply enough, because rebases only take place on a daily timeframe (and thus the supply only changes once per day), we can take the latest supply and multiply it by the
+// our lower timeframe pricing to chart a live AMPL marketcap value on which we can do normal technical analysis.
+
+//@version=5
+indicator("Live AMPL Marketcap")
+
+// Select desired timeframe
+tf = input.timeframe('', 'Timeframe')
+
+// Request timeframe ohlc for candle plots
+ampl_price_open = request.security("KUCOIN:AMPLUSDT", tf, open)
+ampl_price_low = request.security("KUCOIN:AMPLUSDT", tf, low)
+ampl_price_high = request.security("KUCOIN:AMPLUSDT", tf, high)
+ampl_price_close = request.security("KUCOIN:AMPLUSDT", tf, close)
+
+// Request current supply of AMPL
+ampl_supply = request.security("AMPL_SUPPLY", 'D', close)
+
+// Calculate marketcap ohlc by multiplying price ohlc by current supply
+ampl_mcap_open = ampl_price_open * ampl_supply
+ampl_mcap_low = ampl_price_low * ampl_supply
+ampl_mcap_high = ampl_price_high * ampl_supply
+ampl_mcap_close = ampl_price_close * ampl_supply
+
+// Plot current value and candle data for timeframe
+plot(ampl_mcap_close, 'AMPL MCAP', color = close >= open ? color.green : color.red)
+plotcandle(ampl_mcap_open, ampl_mcap_low, ampl_mcap_high, ampl_mcap_close, title='AMPL MCAP', color = ampl_mcap_open < ampl_mcap_close ? color.green : color.red, wickcolor= ampl_mcap_open < ampl_mcap_close ? color.green : color.red)
