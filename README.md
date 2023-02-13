@@ -19,3 +19,31 @@ Simply enough, because rebases only take place on a daily timeframe (and thus th
 It can be treated like a price ticker and plugged into normal TA indicators like MACD or RSI to signal entries and exits.
 
 <img src="https://www.tradingview.com/x/iHQodVPV/">
+
+<code>// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © CubanEmissary
+//@version=5
+indicator("Live AMPL Marketcap")
+//
+// Select desired timeframe
+tf = input.timeframe('', 'Timeframe')
+//
+// Request timeframe ohlc for candle plots
+ampl_price_open = request.security("KUCOIN:AMPLUSDT", tf, open)
+ampl_price_low = request.security("KUCOIN:AMPLUSDT", tf, low)
+ampl_price_high = request.security("KUCOIN:AMPLUSDT", tf, high)
+ampl_price_close = request.security("KUCOIN:AMPLUSDT", tf, close)
+//
+// Request current supply of AMPL
+ampl_supply = request.security("AMPL_SUPPLY", 'D', close)
+//
+// Calculate marketcap ohlc by multiplying price ohlc by current supply
+ampl_mcap_open = ampl_price_open * ampl_supply
+ampl_mcap_low = ampl_price_low * ampl_supply
+ampl_mcap_high = ampl_price_high * ampl_supply
+ampl_mcap_close = ampl_price_close * ampl_supply
+//
+// Plot current value and candle data for timeframe
+plot(ampl_mcap_close, 'AMPL MCAP', color = close >= open ? color.green : color.red)
+plotcandle(ampl_mcap_open, ampl_mcap_low, ampl_mcap_high, ampl_mcap_close, title='AMPL MCAP', color = ampl_mcap_open < ampl_mcap_close ? color.green : color.red, wickcolor= ampl_mcap_open < ampl_mcap_close ? color.green : color.red)
+</code>
