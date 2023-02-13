@@ -18,4 +18,4 @@ Simply enough, because rebases only take place on a daily timeframe (and thus th
 # How can this tool be used?
 It can be treated like a price ticker and plugged into normal TA indicators like MACD or RSI to signal entries and exits.
 
-<img src="https://www.tradingview.com/x/7TCY9HKo/">
+<img src="https://www.tradingview.com/x/iHQodVPV/">
