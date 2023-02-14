@@ -31,11 +31,18 @@ ampl_price_close = request.security("KUCOIN:AMPLUSDT", tf, close)
 ampl_supply = request.security("AMPL_SUPPLY", 'D', close)
 
 // Calculate marketcap ohlc by multiplying price ohlc by current supply
+// Calculate marketcap percent change by dividing the close by the open, subtracting 1, and multiplying by 100
 ampl_mcap_open = ampl_price_open * ampl_supply
 ampl_mcap_high = ampl_price_high * ampl_supply
 ampl_mcap_low = ampl_price_low * ampl_supply
 ampl_mcap_close = ampl_price_close * ampl_supply
+ampl_mcap_percent_change = 100*((ampl_mcap_close/ampl_mcap_open)-1)
 
-// Plot current value and candle data for timeframe
-plotcandle(ampl_mcap_open, ampl_mcap_high, ampl_mcap_low, ampl_mcap_close, title='AMPL MCAP OHLC', color = ampl_mcap_open < ampl_mcap_close ? color.green : color.red, wickcolor= ampl_mcap_open < ampl_mcap_close ? color.green : color.red)
-plot(ampl_mcap_close, 'AMPL MCAP Current', color = close >= open ? color.green : color.red)
+// Plot candles, OHLC, and percent change for timeframe
+plotcandle(ampl_mcap_open, ampl_mcap_high, ampl_mcap_low, ampl_mcap_close, 'OHLC', color = ampl_mcap_open < ampl_mcap_close ? color.green : color.red, wickcolor= ampl_mcap_open < ampl_mcap_close ? color.green : color.red, display = display.pane)
+plot(ampl_mcap_open, 'Open', color = close >= open ? color.green : color.red, display = display.status_line)
+plot(ampl_mcap_high, 'High', color = close >= open ? color.green : color.red, display = display.status_line)
+plot(ampl_mcap_low, 'Low', color = close >= open ? color.green : color.red, display = display.status_line)
+plot(ampl_mcap_close, 'Close', color = close >= open ? color.green : color.red, display = display.status_line)
+plot(ampl_mcap_percent_change, '% Change', color = close >= open ? color.green : color.red, display = display.status_line)
+
