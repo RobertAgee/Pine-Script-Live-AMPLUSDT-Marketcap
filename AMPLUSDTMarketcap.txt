@@ -40,9 +40,9 @@ ampl_mcap_percent_change = 100*((ampl_mcap_close/ampl_mcap_open)-1)
 
 // Plot candles, OHLC, and percent change for timeframe
 plotcandle(ampl_mcap_open, ampl_mcap_high, ampl_mcap_low, ampl_mcap_close, 'OHLC', color = ampl_mcap_open < ampl_mcap_close ? color.green : color.red, wickcolor= ampl_mcap_open < ampl_mcap_close ? color.green : color.red, display = display.pane)
-plot(ampl_mcap_open, 'Open', color = close >= open ? color.green : color.red, display = display.status_line)
-plot(ampl_mcap_high, 'High', color = close >= open ? color.green : color.red, display = display.status_line)
-plot(ampl_mcap_low, 'Low', color = close >= open ? color.green : color.red, display = display.status_line)
-plot(ampl_mcap_close, 'Close', color = close >= open ? color.green : color.red, display = display.status_line)
-plot(ampl_mcap_percent_change, '% Change', color = close >= open ? color.green : color.red, display = display.status_line)
+plot(ampl_mcap_open, 'Open', color = close >= open ? color.green : color.red, display = display.status_line + display.data_window)
+plot(ampl_mcap_high, 'High', color = close >= open ? color.green : color.red, display = display.status_line + display.data_window)
+plot(ampl_mcap_low, 'Low', color = close >= open ? color.green : color.red, display = display.status_line + display.data_window)
+plot(ampl_mcap_close, 'Close', color = close >= open ? color.green : color.red, display = display.all)
+plot(ampl_mcap_percent_change, '% Change', color = close >= open ? color.green : color.red, display = display.status_line + display.data_window)
 
