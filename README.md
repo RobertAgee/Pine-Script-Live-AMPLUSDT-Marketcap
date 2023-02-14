@@ -23,7 +23,7 @@ It can be treated like a price ticker and plugged into normal TA indicators like
 <code>// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
 // © CubanEmissary
 //@version=5
-indicator("Live AMPL Marketcap")
+indicator("Live AMPL Marketcap OHLC")
 //
 // Select desired timeframe
 tf = input.timeframe('', 'Timeframe')
@@ -39,11 +39,11 @@ ampl_supply = request.security("AMPL_SUPPLY", 'D', close)
 //
 // Calculate marketcap ohlc by multiplying price ohlc by current supply
 ampl_mcap_open = ampl_price_open * ampl_supply
-ampl_mcap_low = ampl_price_low * ampl_supply
 ampl_mcap_high = ampl_price_high * ampl_supply
+ampl_mcap_low = ampl_price_low * ampl_supply
 ampl_mcap_close = ampl_price_close * ampl_supply
 //
 // Plot current value and candle data for timeframe
-plot(ampl_mcap_close, 'AMPL MCAP', color = close >= open ? color.green : color.red)
-plotcandle(ampl_mcap_open, ampl_mcap_low, ampl_mcap_high, ampl_mcap_close, title='AMPL MCAP', color = ampl_mcap_open < ampl_mcap_close ? color.green : color.red, wickcolor= ampl_mcap_open < ampl_mcap_close ? color.green : color.red)
+plotcandle(ampl_mcap_open, ampl_mcap_high, ampl_mcap_low, ampl_mcap_close, title='AMPL MCAP OHLC', color = ampl_mcap_open < ampl_mcap_close ? color.green : color.red, wickcolor= ampl_mcap_open < ampl_mcap_close ? color.green : color.red)
+plot(ampl_mcap_close, 'AMPL MCAP Current', color = close >= open ? color.green : color.red)
 </code>
